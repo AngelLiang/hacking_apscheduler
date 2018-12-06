@@ -68,15 +68,18 @@ class SQLAlchemyJobStore(BaseJobStore):
         self.jobs_t.create(self.engine, True)
 
     def lookup_job(self, job_id):
+        """查找job"""
         selectable = select([self.jobs_t.c.job_state]).where(self.jobs_t.c.id == job_id)
         job_state = self.engine.execute(selectable).scalar()
         return self._reconstitute_job(job_state) if job_state else None
 
     def get_due_jobs(self, now):
+        """获取到期的jobs"""
         timestamp = datetime_to_utc_timestamp(now)
         return self._get_jobs(self.jobs_t.c.next_run_time <= timestamp)
 
     def get_next_run_time(self):
+        """获取下一个运行时间"""
         selectable = select([self.jobs_t.c.next_run_time]).\
             where(self.jobs_t.c.next_run_time != null()).\
             order_by(self.jobs_t.c.next_run_time).limit(1)
@@ -84,6 +87,7 @@ class SQLAlchemyJobStore(BaseJobStore):
         return utc_timestamp_to_datetime(next_run_time)
 
     def get_all_jobs(self):
+        """获取所有jobs"""
         jobs = self._get_jobs()
         self._fix_paused_jobs_sorting(jobs)
         return jobs

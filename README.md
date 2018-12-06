@@ -5,6 +5,7 @@
 ## 环境搭建步骤
 
 ```PowerShell
+pipenv install
 pipenv shell
 python setup.py install
 ```
@@ -15,4 +16,10 @@ python setup.py install
 
 ```PowerShell
 python .\examples\executors\processpool.py
+```
+
+sqlalchemy sample:
+
+```PowerShell
+python .\examples\jobstores\sqlalchemy_.py
 ```

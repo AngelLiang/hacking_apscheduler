@@ -284,6 +284,8 @@ class BaseScheduler(six.with_metaclass(ABCMeta)):
         """
         Adds a job store to this scheduler.
 
+        给目前的scheduler添加job store。
+
         Any extra keyword arguments will be passed to the job store plugin's constructor, assuming
         that the first argument is the name of a job store plugin.
 
